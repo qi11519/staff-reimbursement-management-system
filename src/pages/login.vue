@@ -16,8 +16,10 @@
         <label for="password">Password</label>
       </FloatLabel>
 
+      <!-- Submit Button -->
       <Button label="Submit" @click="handleLogin" />
       
+      <!-- Error Text -->
       <p v-if="error" class="error">{{ error }}</p>
     </div>
   </div>
@@ -49,10 +51,10 @@ const handleLogin = () => {
   const result = UserDabataseStore.authenticateLogin(account.value, password.value);
   
   if (result.error) { 
-    // If fail
+    // If fail, prompt error
     error.value = result.error;
   } else {
-    // If Success
+    // If Success, navigate to dashboard
     error.value = null;
     UserStore.currentUser = result.user;
     alert('Login Success');
