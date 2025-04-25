@@ -1,14 +1,18 @@
 <template>
-    <div class="dashboard-container">
-      <h2>Dashboard</h2>
-    </div>
-  </template>
-  
-  <script setup>
+  <div class="dashboard-container">
+    <h2>Dashboard</h2>
 
-  </script>
-  
-  <style scoped>
+    <p>Current User: {{ UserStore.currentUser }}</p>
+  </div>
+</template>
 
-  </style>
-  
+<script setup>
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+// Store
+import { useUserStore } from "../store/UserStore";
+
+const UserStore = useUserStore();
+</script>
+
+<style scoped></style>

@@ -6,13 +6,13 @@
     <div class="form-container">
       <!-- Account Field -->
       <FloatLabel variant="on">
-        <InputText id="account" v-model="account" />
+        <InputText style="width: 400px" id="account" v-model="account" />
         <label for="account">Account</label>
       </FloatLabel>
 
       <!-- Password Field -->
       <FloatLabel variant="on">
-        <Password id="password" v-model="password" :feedback="false" />
+        <Password style="width: 400px" id="password" v-model="password" :feedback="false" />
         <label for="password">Password</label>
       </FloatLabel>
 
@@ -26,22 +26,38 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+// Store
+import { useUserStore } from "../store/UserStore";
+import { useUserDatabaseStore } from "../store/UserDabataseStore";
 // PrimeVue Component
 import FloatLabel from 'primevue/floatlabel';
 import InputText from "primevue/inputtext";
 import Password from 'primevue/password';
 import Button from 'primevue/button';
 
+const router = useRouter();
+const UserStore = useUserStore();
+const UserDabataseStore = useUserDatabaseStore();
+
 const account = ref("");
 const password = ref("");
 const error = ref("");
 
-const router = useRouter();
-
 // Execute login action
 const handleLogin = () => {
-  router.push({ name: "Dashboard"});
-  console.log("afefwegrg");
+  // Authenticate login with provided account and password
+  const result = UserDabataseStore.authenticateLogin(account.value, password.value);
+  
+  if (result.error) { 
+    // If fail
+    error.value = result.error;
+  } else {
+    // If Success
+    error.value = null;
+    UserStore.currentUser = result.user;
+    alert('Login Success');
+    router.push({ name: 'Dashboard' });
+  }
 }
 </script>
 
@@ -55,13 +71,17 @@ const handleLogin = () => {
 }
 
 .form-container {
-  max-width: 700px;
+  width: 400px;
   height: 500px;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
+:deep(.p-password .p-password-input) {
+  width: 400px;
+}
+  
 input {
   padding: 8px;
   border: 1px solid #ccc;
