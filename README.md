@@ -22,3 +22,11 @@ npm install
 
 # 2. Run development server
 npm run dev
+```
+#### Usable Account for Login
+| ACCOUNT | PASSWORD |
+| ------- | -------- |
+|  admin  | admin123 |
+|  staff1 | staff123 |
+|  staff2 | staff123 |
+|  staff3 | staff123 |
