@@ -1,6 +1,6 @@
 <template>
   <div style="margin-bottom: 10px">
-    <table>
+    <table v-if="pendingApplication && pendingApplication.length > 0">
       <thead>
         <tr>
           <td>Description</td>
@@ -20,26 +20,25 @@
               label="Approve"
               severity="success"
               @click="
-                UserDabataseStore.approveApplication(
-                    application?.account
-                )
+                UserDabataseStore.approveApplication(application?.account)
               "
             />
             <Button
               label="Reject"
               severity="danger"
-              @click="
-                UserDabataseStore.rejectApplication(
-                    application?.account
-                )
-              "
+              @click="UserDabataseStore.rejectApplication(application?.account)"
             />
           </td>
         </tr>
       </tbody>
     </table>
+
+    <!-- If no pending application -->
+    <div v-else class="form-container" style="justify-content: center">
+      <b>No reimbursement application at the moment...</b>
+    </div>
   </div>
-  pendingApplication {{ pendingApplication }}
+  <!-- pendingApplication {{ pendingApplication }} -->
 </template>
 
 <script setup>
@@ -78,8 +77,8 @@ td {
 }
 
 .form-container {
-  width: 600px;
-  height: 400px;
+  width: 500px;
+  height: 200px;
   padding: 10px;
   margin: 10px;
   display: flex;
