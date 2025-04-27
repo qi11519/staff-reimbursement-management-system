@@ -59,7 +59,7 @@ const UserDabataseStore = useUserDatabaseStore();
 // Keep track if theres existing application for current staff
 const pendingApplication = computed(() => {
   return UserDabataseStore.applicationList.filter(
-    (app) => app.status === "pending"
+    (app) => app.status === "Pending"
   );
 });
 </script>
