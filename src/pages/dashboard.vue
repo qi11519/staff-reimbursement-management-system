@@ -5,14 +5,33 @@
     <div class="user-info">
       <a><b>Current User:</b> {{ UserStore.currentUser?.account }}</a>
       <a><b>User Role:</b> {{ UserStore?.currentUser?.role }}</a>
+      
+      <!-- Submit Button -->
+      <Button style="width: 150px; margin-top: 10px;" label="Logout" severity="danger" @click="handleLogout" />
     </div>
 
-    <!-- Rebursement Application Form -->
-    <ClaimApplication
+    <!-- Staff Dashboard -->
+    <Tabs
       v-if="
         UserStore.currentUser?.role && UserStore.currentUser.role === 'Staff'
       "
-    ></ClaimApplication>
+      :value="0"
+    >
+      <TabList>
+        <Tab :value="0">Application Form</Tab>
+        <Tab :value="1">Application History</Tab>
+      </TabList>
+      <TabPanels>
+        <!-- Rebursement Application Form -->
+        <TabPanel :value="0">
+          <ClaimApplication></ClaimApplication>
+        </TabPanel>
+        <!-- Rebursement Application History -->
+        <TabPanel :value="1">
+          <ClaimRecord></ClaimRecord>
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
 
     <!-- Rebursement Management Table -->
     <ClaimManagement
@@ -20,9 +39,6 @@
         UserStore.currentUser?.role && UserStore.currentUser.role === 'Admin'
       "
     ></ClaimManagement>
-
-    <!-- Submit Button -->
-    <Button label="Logout" severity="danger" @click="handleLogout" />
   </div>
 </template>
 
@@ -30,11 +46,17 @@
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import ClaimApplication from "../component/claimApplication.vue";
+import ClaimRecord from "../component/claimRecord.vue";
 import ClaimManagement from "../component/claimManagement.vue";
 // Store
 import { useUserStore } from "../store/UserStore";
 // PrimeVue Component
 import Button from "primevue/button";
+import Tabs from "primevue/tabs";
+import TabList from "primevue/tablist";
+import Tab from "primevue/tab";
+import TabPanels from "primevue/tabpanels";
+import TabPanel from "primevue/tabpanel";
 
 const router = useRouter();
 const UserStore = useUserStore();
@@ -69,6 +91,7 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   margin-bottom: 20px;
 
   b {

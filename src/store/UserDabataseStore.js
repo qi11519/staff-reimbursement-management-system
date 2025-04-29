@@ -20,21 +20,18 @@ export const useUserDatabaseStore = defineStore('userDatabaseStore', () => {
   };
 
   // List of Claim Application List
+  // Use timestamp as id
   const applicationList = ref([
-    { amount: 111, description: "Testing", account: "staff1", status: "Pending" },
-    { amount: 111, description: "Testing", account: "staff2", status: "Pending" },
-    { amount: 111, description: "Testing", account: "staff3", status: "Declined" },
+    { id: 123123123, amount: 111, description: "Testing", account: "staff1", status: "Pending" },
+    { id: 122122122, amount: 111, description: "Testing", account: "staff1", status: "Approved" },
+    { id: 124124124, amount: 111, description: "Testing", account: "staff2", status: "Pending" },
+    { id: 125125125, amount: 111, description: "Testing", account: "staff3", status: "Declined" },
   ])
 
   // Add
   const addApplication = (newApplication) => {
     applicationList.value.push(newApplication);
   }
-
-  // Remove if reviewed by the staff
-  const removeApplicationBasedOnAccount = (account) => {
-    applicationList.value = applicationList.value.filter(app => app.account !== account);
-  };
 
   // Approve by admin
   const approveApplication = (account) => {
@@ -63,7 +60,6 @@ export const useUserDatabaseStore = defineStore('userDatabaseStore', () => {
     authenticateLogin,
     applicationList,
     addApplication,
-    removeApplicationBasedOnAccount,
     approveApplication,
     rejectApplication,
   };

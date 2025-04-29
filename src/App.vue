@@ -35,8 +35,22 @@ const darkTheme = ref(true);
 }
 
 .dark {
-  color: rgba(255, 255, 255, 0.87);
+  color: #ffffffde;
   background-color: #242424;
+}
+
+:deep(.p-tablist-tab-list), :deep(.p-tabpanels){
+  transition: color 0.35s ease-in-out, background-color 0.35s ease-in-out;
+}
+
+.dark :deep(.p-tablist-tab-list){
+  background-color: #242424;
+  color: #ffffffde;
+}
+
+.dark :deep(.p-tabpanels){
+  background-color: #242424;
+  color: #ffffffde;
 }
 
 /* Header */

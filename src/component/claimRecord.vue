@@ -1,35 +1,21 @@
 <template>
   <div class="table-container">
-    <table v-if="pendingApplication && pendingApplication.length > 0">
+    <table v-if="historicalApplication && historicalApplication.length > 0">
       <thead>
         <tr>
           <td>ID</td>
           <td>Description</td>
           <td>Amount</td>
-          <td>Staff</td>
-          <td>Action</td>
+          <td>Result</td>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="application in pendingApplication">
+        <tr v-for="application in historicalApplication">
           <td>{{ application?.id }}</td>
           <td>{{ application?.description }}</td>
           <td>{{ application?.amount }}</td>
-          <td>{{ application?.account }}</td>
-          <td>
-            <Button
-              style="margin-right: 5px"
-              label="Approve"
-              severity="success"
-              @click="
-                UserDabataseStore.approveApplication(application?.account)
-              "
-            />
-            <Button
-              label="Reject"
-              severity="danger"
-              @click="UserDabataseStore.rejectApplication(application?.account)"
-            />
+          <td :class="application.status === 'Pending'? 'gray-text' : application.status === 'Approved' ? 'green-text' : 'red-text'">
+            {{ application.status }}
           </td>
         </tr>
       </tbody>
@@ -40,7 +26,7 @@
       <b>No reimbursement application at the moment...</b>
     </div>
   </div>
-  <!-- pendingApplication {{ pendingApplication }} -->
+  <!-- historicalApplication {{ historicalApplication }} -->
 </template>
 
 <script setup>
@@ -58,9 +44,9 @@ const UserStore = useUserStore();
 const UserDabataseStore = useUserDatabaseStore();
 
 // Keep track if theres existing application for current staff
-const pendingApplication = computed(() => {
+const historicalApplication = computed(() => {
   return UserDabataseStore.applicationList.filter(
-    (app) => app.status === "Pending"
+    (app) => app.account === UserStore.currentUser?.account
   );
 });
 </script>
@@ -77,6 +63,21 @@ const pendingApplication = computed(() => {
   gap: 10px;
   border: 1px solid rgb(166, 166, 166);
   border-radius: 5px;
+}
+
+.gray-text {
+    color: rgb(149, 147, 169);
+    font-weight: bold;
+}
+
+.green-text {
+    color: rgb(0, 176, 0);
+    font-weight: bold;
+}
+
+.red-text {
+    color: rgb(207, 0, 0);
+    font-weight: bold;
 }
 
 /* Table Matters */
