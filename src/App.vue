@@ -1,21 +1,53 @@
 <template>
-  <router-view :key="$route.fullPath"></router-view>
+  <div class="content" :class="darkTheme ? 'dark' : 'light'">
+    <!-- Header bar -->
+    <div class="header">
+      <b>{{ darkTheme ? 'Dark Theme' : 'Light Theme' }}</b>
+      <ToggleSwitch v-model="darkTheme" />
+    </div>
+    <div class="content">
+      <router-view :key="$route.fullPath"></router-view>
+    </div>
+  </div>
 </template>
 
 <script setup>
+import { ref } from "vue";
+// PrimeVue Component
+import ToggleSwitch from "primevue/toggleswitch";
+
+// Default is dark theme
+const darkTheme = ref(true);
 </script>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+.content {
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  transition: color 0.35s ease-in-out, background-color 0.35s ease-in-out;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+
+/* Theme */
+.light {
+  color: #213547;
+  background-color: #ffffff;
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+
+.dark {
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+}
+
+/* Header */
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  padding-right: 20px;
+
+  b {
+    margin-right: 10px;
+  }
 }
 </style>

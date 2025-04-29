@@ -71,10 +71,6 @@ onMounted(() => {
   justify-content: center;
   margin-bottom: 20px;
 
-  a {
-    color: white;
-  }
-
   b {
     color: rgb(163, 142, 163);
   }
