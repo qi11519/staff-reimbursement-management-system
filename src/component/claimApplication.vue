@@ -1,6 +1,19 @@
 <template>
   <div class="form-container">
     <h2>Apply Reimbursement</h2>
+
+    <!-- Charge Type -->
+    <div style="width: 500px; display: flex; justify-content: space-between; align-items: center;">
+      <b style="margin-right: 20px; margin-left: 10px">Charge Type</b>
+      <Select style="width: 320px" v-model="selectedType" :options="typeList" placeholder="Select charge type" class="w-full md:w-56" />
+    </div>
+
+     <!-- Date of Purchase -->
+     <div style="width: 500px; display: flex; justify-content: space-between; align-items: center;">
+      <b style="margin-right: 20px; margin-left: 10px">Date of Purchase</b>
+      <DatePicker style="width: 320px" v-model="dateOfPurchase" showIcon fluid iconDisplay="input" />
+    </div>
+
     <!-- Account Field -->
     <FloatLabel variant="on">
       <InputText style="width: 500px" id="amount" v-model="amount" />
@@ -14,29 +27,44 @@
     </FloatLabel>
 
     <!-- Submit Button -->
-    <Button label="Submit" @click="handleSubmit" />
+    <Button style="margin-top: 20px; width: 200px" label="Submit" @click="handleSubmit" />
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import { useRouter } from "vue-router";
+import { ref, onMounted } from "vue";
+// import { useRouter } from "vue-router";
 // Store
 import { useUserStore } from "../store/UserStore";
 import { useUserDatabaseStore } from "../store/UserDabataseStore";
 // PrimeVue Component
 import FloatLabel from "primevue/floatlabel";
 import InputText from "primevue/inputtext";
+import Select from 'primevue/select';
+import DatePicker from 'primevue/datepicker';
 import Button from "primevue/button";
 
 const UserStore = useUserStore();
 const UserDabataseStore = useUserDatabaseStore();
 
+// Form Field
 const amount = ref("");
 const description = ref("");
+const selectedType = ref("Travel");
+const typeList = ['Travel', 'Meals', 'Office Supplies', 'Training', 'Software', 'Miscellaneous'];
+const dateOfPurchase = ref("");
+
+// Date picker default date set to today
+onMounted(() => {
+  const today = new Date();
+  const formattedDate = today.toISOString().split('T')[0];
+  dateOfPurchase.value = formattedDate;
+});
 
 const handleSubmit = () => {
-    UserDabataseStore.addApplication({ amount: amount, description: description, account: UserStore.currentUser?.account, status: "pending" });
+  // Use timestamp(9 digit) as application id
+  const id = Math.floor(Date.now() / 1000);
+    UserDabataseStore.addApplication({ id: id, amount: amount, charge_type: selectedType.value, date_of_purchase: dateOfPurchase.value, description: description.value, account: UserStore.currentUser?.account, status: "Pending" });
 }
 </script>
 
