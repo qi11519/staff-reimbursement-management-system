@@ -37,20 +37,24 @@ const darkTheme = ref(true);
 .dark {
   color: #ffffffde;
   background-color: #242424;
+
+  :deep(.p-tablist-tab-list), :deep(.p-tabpanels), :deep(.p-datatable-header-cell) ,:deep(.p-datatable-tbody > tr){
+    background-color: #242424;
+    color: #ffffffde;
+  }
 }
 
-:deep(.p-tablist-tab-list), :deep(.p-tabpanels){
+:deep(.p-tablist-tab-list), :deep(.p-tabpanels), :deep(.p-datatable-header-cell) ,:deep(.p-datatable-tbody > tr){
   transition: color 0.35s ease-in-out, background-color 0.35s ease-in-out;
 }
 
-.dark :deep(.p-tablist-tab-list){
-  background-color: #242424;
-  color: #ffffffde;
+:deep(.p-datatable-column-header-content){
+  display: flex;
+  justify-content: center;
 }
 
-.dark :deep(.p-tabpanels){
-  background-color: #242424;
-  color: #ffffffde;
+:deep(.p-datatable-tbody > tr > td){
+  text-align: center;
 }
 
 /* Header */

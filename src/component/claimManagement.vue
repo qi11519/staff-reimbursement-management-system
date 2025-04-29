@@ -1,39 +1,30 @@
 <template>
   <div class="table-container">
-    <table v-if="pendingApplication && pendingApplication.length > 0">
-      <thead>
-        <tr>
-          <td>ID</td>
-          <td>Description</td>
-          <td>Amount</td>
-          <td>Staff</td>
-          <td>Action</td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="application in pendingApplication">
-          <td>{{ application?.id }}</td>
-          <td>{{ application?.description }}</td>
-          <td>{{ application?.amount }}</td>
-          <td>{{ application?.account }}</td>
-          <td>
-            <Button
+    <!-- Record Table -->
+    <DataTable v-if="pendingApplication && pendingApplication.length > 0" :value="pendingApplication" stripedRows tableStyle="min-width: 50rem">
+      <Column field="id" header="ID"></Column>
+      <Column field="description" header="Description"></Column>
+      <Column field="amount" header="Amount"></Column>
+      <Column field="account" header="Staff"></Column>
+      <Column header="Action">
+        <template #body="slotProps">
+          <Button
               style="margin-right: 5px"
               label="Approve"
               severity="success"
               @click="
-                UserDabataseStore.approveApplication(application?.account)
+                UserDabataseStore.approveApplication(slotProps.data.account)
               "
             />
             <Button
               label="Reject"
               severity="danger"
-              @click="UserDabataseStore.rejectApplication(application?.account)"
+              @click="UserDabataseStore.rejectApplication(slotProps.data.account)"
             />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+        </template>
+      </Column>
+    </DataTable>
+
 
     <!-- If no pending application -->
     <div v-else class="form-container" style="justify-content: center">
@@ -45,13 +36,12 @@
 
 <script setup>
 import { ref, computed } from "vue";
-import { useRouter } from "vue-router";
 // Store
 import { useUserStore } from "../store/UserStore";
 import { useUserDatabaseStore } from "../store/UserDabataseStore";
 // PrimeVue Component
-import FloatLabel from "primevue/floatlabel";
-import InputText from "primevue/inputtext";
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
 import Button from "primevue/button";
 
 const UserStore = useUserStore();

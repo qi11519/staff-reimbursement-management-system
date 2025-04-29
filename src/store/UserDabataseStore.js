@@ -24,6 +24,7 @@ export const useUserDatabaseStore = defineStore('userDatabaseStore', () => {
   const applicationList = ref([
     { id: 123123123, amount: 111, description: "Testing", account: "staff1", status: "Pending" },
     { id: 122122122, amount: 111, description: "Testing", account: "staff1", status: "Approved" },
+    { id: 122122122, amount: 111, description: "Testing", account: "staff1", status: "Declined" },
     { id: 124124124, amount: 111, description: "Testing", account: "staff2", status: "Pending" },
     { id: 125125125, amount: 111, description: "Testing", account: "staff3", status: "Declined" },
   ])
