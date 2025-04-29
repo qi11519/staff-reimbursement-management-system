@@ -22,11 +22,11 @@ export const useUserDatabaseStore = defineStore('userDatabaseStore', () => {
   // List of Claim Application List
   // Use timestamp as id(9 digit)
   const applicationList = ref([
-    { id: 123123123, amount: 123, charge_type: "Travel", date_of_purchase: "2025-04-01", description: "Testing1", account: "staff1", status: "Pending" },
-    { id: 122122122, amount: 567, charge_type: "Meals", date_of_purchase: "2025-04-02", description: "Testing2", account: "staff1", status: "Approved" },
-    { id: 122122122, amount: 888, charge_type: "Training", date_of_purchase: "2025-04-03", description: "Testing3", account: "staff1", status: "Declined" },
-    { id: 124124124, amount: 731, charge_type: "Software", date_of_purchase: "2025-04-04", description: "Testing4", account: "staff2", status: "Pending" },
-    { id: 125125125, amount: 574, charge_type: "Miscellaneous", date_of_purchase: "2025-04-05", description: "Testing5", account: "staff3", status: "Declined" },
+    { id: 1680432000, amount: 123, charge_type: "Travel", date_of_purchase: "2025-04-01", description: "Testing1", account: "staff1", status: "Pending" },
+    { id: 1680703800, amount: 567, charge_type: "Meals", date_of_purchase: "2025-04-02", description: "Testing2", account: "staff1", status: "Approved" },
+    { id: 1681105500, amount: 888, charge_type: "Training", date_of_purchase: "2025-04-03", description: "Testing3", account: "staff1", status: "Declined" },
+    { id: 1681604100, amount: 731, charge_type: "Software", date_of_purchase: "2025-04-04", description: "Testing4", account: "staff2", status: "Pending" },
+    { id: 1681987200, amount: 574, charge_type: "Miscellaneous", date_of_purchase: "2025-04-05", description: "Testing5", account: "staff3", status: "Declined" },
   ])
 
   // Add
@@ -35,11 +35,9 @@ export const useUserDatabaseStore = defineStore('userDatabaseStore', () => {
   }
 
   // Approve by admin
-  const approveApplication = (account) => {
-    console.log(account);
-    
+  const approveApplication = (id) => {  
     for (let i = 0; i < applicationList.value.length; i++) {
-      if (applicationList.value[i].account === account) {
+      if (applicationList.value[i].id === id) {
         applicationList.value[i].status = 'Approved';
         break;
       }
@@ -47,9 +45,9 @@ export const useUserDatabaseStore = defineStore('userDatabaseStore', () => {
   };
 
   // Reject by adminn
-  const rejectApplication= (account) => {
+  const rejectApplication= (id) => {
     for (let i = 0; i < applicationList.value.length; i++) {
-      if (applicationList.value[i].account === account) {
+      if (applicationList.value[i].id === id) {
         applicationList.value[i].status = 'Declined';
         break;
       }

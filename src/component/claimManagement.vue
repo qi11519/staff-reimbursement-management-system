@@ -3,8 +3,21 @@
     <!-- Record Table -->
     <DataTable v-if="pendingApplication && pendingApplication.length > 0" :value="pendingApplication" stripedRows tableStyle="min-width: 50rem">
       <Column field="id" header="ID"></Column>
+      <Column header="Charge Type">
+        <template #body="slotProps">
+          <Tag
+            :value="slotProps.data.charge_type"
+            severity="contrast"
+          />
+        </template>
+      </Column>
+      <Column field="date_of_purchase" header="Date Of Purchase"></Column>
+      <Column header="Amount">
+        <template #body="slotProps">
+          {{ "RM " + Number(slotProps.data.amount ?? 0).toFixed(2) }}
+        </template>
+      </Column>
       <Column field="description" header="Description"></Column>
-      <Column field="amount" header="Amount"></Column>
       <Column field="account" header="Staff"></Column>
       <Column header="Action">
         <template #body="slotProps">
@@ -13,13 +26,13 @@
               label="Approve"
               severity="success"
               @click="
-                UserDabataseStore.approveApplication(slotProps.data.account)
+                UserDabataseStore.approveApplication(slotProps.data.id)
               "
             />
             <Button
               label="Reject"
               severity="danger"
-              @click="UserDabataseStore.rejectApplication(slotProps.data.account)"
+              @click="UserDabataseStore.rejectApplication(slotProps.data.id)"
             />
         </template>
       </Column>
@@ -42,6 +55,7 @@ import { useUserDatabaseStore } from "../store/UserDabataseStore";
 // PrimeVue Component
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
+import Tag from "primevue/tag";
 import Button from "primevue/button";
 
 const UserStore = useUserStore();

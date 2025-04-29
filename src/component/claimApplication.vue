@@ -11,13 +11,13 @@
      <!-- Date of Purchase -->
      <div style="width: 500px; display: flex; justify-content: space-between; align-items: center;">
       <b style="margin-right: 20px; margin-left: 10px">Date of Purchase</b>
-      <DatePicker style="width: 320px" v-model="dateOfPurchase" showIcon fluid iconDisplay="input" />
+      <DatePicker style="width: 320px" v-model="dateOfPurchase" dateFormat="yy-mm-dd" showIcon iconDisplay="input" />
     </div>
 
     <!-- Account Field -->
     <FloatLabel variant="on">
-      <InputText style="width: 500px" id="amount" v-model="amount" />
-      <label for="amount">Amount</label>
+      <InputNumber style="width: 500px" id="amount" v-model="amount" />
+      <label for="amount">Amount (RM)</label>
     </FloatLabel>
 
     <!-- description Field -->
@@ -40,6 +40,7 @@ import { useUserDatabaseStore } from "../store/UserDabataseStore";
 // PrimeVue Component
 import FloatLabel from "primevue/floatlabel";
 import InputText from "primevue/inputtext";
+import InputNumber from 'primevue/inputnumber';
 import Select from 'primevue/select';
 import DatePicker from 'primevue/datepicker';
 import Button from "primevue/button";
@@ -64,7 +65,32 @@ onMounted(() => {
 const handleSubmit = () => {
   // Use timestamp(9 digit) as application id
   const id = Math.floor(Date.now() / 1000);
-    UserDabataseStore.addApplication({ id: id, amount: amount, charge_type: selectedType.value, date_of_purchase: dateOfPurchase.value, description: description.value, account: UserStore.currentUser?.account, status: "Pending" });
+
+  // Date picker returns Date object, need to reformat
+  if(typeof(dateOfPurchase.value) != "string"){
+    dateOfPurchase.value = formatDateToYYYYMMDD(dateOfPurchase.value);
+  }
+
+  UserDabataseStore.addApplication({ id: id, amount: amount, charge_type: selectedType.value, date_of_purchase: dateOfPurchase.value, description: description.value, account: UserStore.currentUser?.account, status: "Pending" });
+  alert("Submission Successfully");
+
+  // Reset Form
+  amount.value = null;
+  description.value = null;
+  selectedType.value = "Travel";
+
+  const today = new Date();
+  const formattedDate = today.toISOString().split('T')[0];
+  dateOfPurchase.value = formattedDate;
+}
+
+// Date picker returns Date object, need to reformat
+function formatDateToYYYYMMDD(date) {
+  const year = date.getFullYear(); 
+  const month = String(date.getMonth() + 1).padStart(2, '0'); 
+  const day = String(date.getDate()).padStart(2, '0'); 
+
+  return `${year}-${month}-${day}`;
 }
 </script>
 

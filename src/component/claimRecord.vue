@@ -8,9 +8,22 @@
       tableStyle="min-width: 50rem"
     >
       <Column field="id" header="ID"></Column>
+      <Column header="Charge Type">
+        <template #body="slotProps">
+          <Tag
+            :value="slotProps.data.charge_type"
+            severity="contrast"
+          />
+        </template>
+      </Column>
+      <Column field="date_of_purchase" header="Date Of Purchase"></Column>
+      <Column header="Amount">
+        <template #body="slotProps">
+          {{ "RM " + Number(slotProps.data.amount ?? 0).toFixed(2) }}
+        </template>
+      </Column>
       <Column field="description" header="Description"></Column>
-      <Column field="amount" header="Amount"></Column>
-      <Column field="status" header="Result">
+      <Column header="Result">
         <template #body="slotProps">
           <Tag
             :value="slotProps.data.status"
