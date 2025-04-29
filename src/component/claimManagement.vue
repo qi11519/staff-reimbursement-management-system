@@ -1,7 +1,7 @@
 <template>
   <div class="table-container">
     <!-- Record Table -->
-    <DataTable v-if="pendingApplication && pendingApplication.length > 0" :value="pendingApplication" stripedRows tableStyle="min-width: 50rem">
+    <DataTable v-if="existingApplication && existingApplication.length > 0" :value="existingApplication" stripedRows tableStyle="min-width: 50rem">
       <Column field="id" header="ID"></Column>
       <Column header="Charge Type">
         <template #body="slotProps">
@@ -21,7 +21,9 @@
       <Column field="account" header="Staff"></Column>
       <Column header="Action">
         <template #body="slotProps">
-          <Button
+          <!-- If pending record -->
+          <div v-if="slotProps.data.status === 'Pending'">
+            <Button
               style="margin-right: 5px"
               label="Approve"
               severity="success"
@@ -34,6 +36,12 @@
               severity="danger"
               @click="UserDabataseStore.rejectApplication(slotProps.data.id)"
             />
+          </div>
+          <Tag
+          v-else
+            :value="slotProps.data.status"
+            :severity="getSeverity(slotProps.data.status)"
+          />
         </template>
       </Column>
     </DataTable>
@@ -44,7 +52,7 @@
       <b>No reimbursement application at the moment...</b>
     </div>
   </div>
-  <!-- pendingApplication {{ pendingApplication }} -->
+  <!-- existingApplication {{ existingApplication }} -->
 </template>
 
 <script setup>
@@ -62,11 +70,25 @@ const UserStore = useUserStore();
 const UserDabataseStore = useUserDatabaseStore();
 
 // Keep track if theres existing application for current staff
-const pendingApplication = computed(() => {
-  return UserDabataseStore.applicationList.filter(
-    (app) => app.status === "Pending"
-  );
+const existingApplication = computed(() => {
+  return UserDabataseStore.applicationList;
 });
+
+// Get severity for record status/result
+const getSeverity = (status) => {
+  switch (status) {
+    // case "Pending":
+    //   return "contrast";
+
+    case "Approved":
+      return "success";
+
+    case "Declined":
+      return "danger";
+    default:
+      return null;
+  }
+};
 </script>
 
 <style scoped>
