@@ -71,7 +71,7 @@ const handleSubmit = () => {
     dateOfPurchase.value = formatDateToYYYYMMDD(dateOfPurchase.value);
   }
 
-  UserDabataseStore.addApplication({ id: id, amount: amount, charge_type: selectedType.value, date_of_purchase: dateOfPurchase.value, description: description.value, account: UserStore.currentUser?.account, status: "Pending" });
+  UserDabataseStore.addApplication({ id: id, amount: amount.value, charge_type: selectedType.value, date_of_purchase: dateOfPurchase.value, description: description.value, account: UserStore.currentUser?.account, status: "Pending" });
   alert("Submission Successfully");
 
   // Reset Form
